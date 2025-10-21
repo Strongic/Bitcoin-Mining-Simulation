@@ -1,4 +1,3 @@
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-22041afd0340ce965d47ae6ef1cefeee28c7c493a6346c4f15d667ab976d596c.svg)](https://classroom.github.com/a/omGABKEa)
 # Overview
 
 Cryptocurrency is a form of digital currency that relies on cryptography to control its creation and ensure secure fund transfers. Bitcoin, introduced in 2009, was the first widely adopted cryptocurrency. Its purpose is to enable direct, peer-to-peer money transfers. Every bitcoin transaction is recorded and verified on a decentralized, distributed, and publicly accessible digital ledger called the blockchain. 
@@ -17,46 +16,10 @@ The security of the blockchain comes from the fact that each block verifies all 
 
 *Bitcoin mining pools* allow miners to combine their resources and share their hashing power. The rewards are split equally based on the amount of work each miner contributes to solving a block. *Solo miners* work independently and typically use a process called *bitcoind*, a daemon that helps obtain information about new transactions from the Bitcoin network.
 
-# Hashing 
-
-A *hash function* maps data of arbitrary size to data of fixed size, often called *digests* or *hash values*. Hash functions are useful in cryptography because the digest allows verification of whether the original data has been altered. A good hash function makes it very difficult to reconstruct the original data from the hash value (i.e., it is hard to invert the process). Examples of hash functions include MD5 and SHA-1. Specifically, MD5 generates a 128-bit hash value. The example below (available at [src/hashing.py](src/hashing.py)) illustrates how to use MD5 in Python.
-
-```
-'''
-CS 3700 - Networking & Distributed Computing - Fall 2024
-Instructor: Thyago Mota
-Student:
-Description: Project 3 - Hashing
-'''
-
-import hashlib
-
-class HashMain:
-    def __init__(self):
-        self.hash_function = hashlib.md5()
-
-    def hash(self, data):
-        self.hash_function.update(data.encode('utf-8'))
-        return self.hash_function.hexdigest()
-
-if __name__ == "__main__":
-    hash_main = HashMain()
-    examples = ["Computer Science", "Computer SciencE", "Bitcoin"]
-    for example in examples:
-        print(f'Hash value of "{example}" is "{hash_main.hash(example)}"')
-```
-
-The example produces the output described below. As you can see, even a small change in the input for MD5 produces a completely different hash value.  
-
-```
-Hash value of "Computer Science" is "8329f5105520a1b72d062628c077ddfa"
-Hash value of "Computer SciencE" is "b46443e18df4abfff7bc9f43d93aad02"
-Hash value of "Bitcoin" is "fac6be5d95def95bd3f0a9e7f3204f01"
-```
 
 # Bitcoin Minging Simulation 
 
-In this project, you are asked to simulate the process of Bitcoin mining using Python and **stomp.py**. The suggested architecture for the simulation uses two topic queues named: **/topic/bitcoin/tasks** and **/topic/bitcoin/solutions**. 
+In this project I simulate the process of Bitcoin mining using Python and **stomp.py**. The suggested architecture for the simulation uses two topic queues named: **/topic/bitcoin/tasks** and **/topic/bitcoin/solutions**. 
 
 ## The Main Process
 
@@ -92,17 +55,3 @@ A miner process will receive a notification whenever a new task is published in 
 The input file format consists of an arbitrary number of tasks, with one task per line. Each task is defined by two parts, separated by a comma: a sequence of bytes (the data portion of the task) and the number of leading zeros. Use the provided [data/input.txt](data/input.txt) file to test your program.
 
 The output file, named [data/output.txt](data/output.txt), contains the same information as the input file, plus the *nonce* value found, represented as a sequence of four bytes. All fields are also separated by commas.
-
-# Rubric
-
-```
-+20 mine function
-+15 tasks listener 
-+15 solutions listener 
-+10 solutions listener setup 
-+10 tasks listener setup 
-+10 tasks are published by the main process
-+5 code is thread-safe
-+10 any task with zeros <=3 are solved in less than 1m 
-+5 output with solutions is generated and clears bitcoin test
-```
